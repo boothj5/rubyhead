@@ -1,5 +1,6 @@
 require './player.rb'
 require './console.rb'
+require './card.rb'
 
 newlines 100
 
@@ -24,4 +25,10 @@ players.each do |player|
     puts "Players name: #{player.name}"
 end
 
+card = Card.new Rank::TEN, :SPADES
 
+puts 'Card:'
+print card.rank
+print ' of '
+print card.suit
+puts
