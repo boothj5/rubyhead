@@ -1,22 +1,5 @@
-class Player
-    def initialize name
-        @name = name
-    end
-
-    def get_name
-        return @name
-    end
-end
-
-def newline
-    puts 
-end
-
-def newlines n
-    n.times do
-        newline
-    end
-end
+require './player.rb'
+require './console.rb'
 
 newlines 100
 
@@ -38,7 +21,7 @@ players = Array.new
 end
 
 players.each do |player|
-    puts "Players name: #{player.get_name}"
+    puts "Players name: #{player.name}"
 end
 
 
