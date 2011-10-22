@@ -7,5 +7,8 @@ class Player
     end
 
     attr_reader :name
+    attr_reader :hand
+    attr_reader :face_up
+    attr_reader :face_down
 end
 
