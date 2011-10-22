@@ -30,4 +30,5 @@ game.players.each do |player|
 end 
 
 clearscreen
+game.first_move!
 show_game game

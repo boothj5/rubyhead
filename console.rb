@@ -38,13 +38,16 @@ def request_player_names n
 end
 
 def show_game game
+    show_pile game.pile
     puts "#{game.deck.size} left on deck"
     newline
 
     game.players.each do |player|
         show_player player, true
-        newlines 1
+        newline
     end
+    puts game.last_move
+    newline
 end
 
 def show_player player, include_face_down
@@ -53,18 +56,25 @@ def show_player player, include_face_down
     player.hand.each do |card|
         print "#{card}, "
     end
-    newlines 1
+    newline
     print 'FACE UP   : '
     player.face_up.each do |card|
         print "#{card}, "
     end
-    newlines 1
+    newline
     if include_face_down
         print 'FACE DOWN : '
         player.face_down.each do |card|
             print "#{card}, "
         end
-        newlines 1
+        newline
+    end
+end
+
+def show_pile pile
+    puts "#{pile.size} on pile:"
+    pile.each do |card|
+        puts "    #{card}"
     end
 end
 

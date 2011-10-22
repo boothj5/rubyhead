@@ -15,7 +15,16 @@ class Player
         @hand.sort! {|a,b| sh_compare a, b}
     end
         
-
+    def lowest_hand_card
+        lowest_card = @hand[0]
+        @hand.each do |card|
+            if (sh_compare(card, lowest_card) < 0)
+                lowest_card = card
+            end
+        end
+        lowest_card
+    end
+    
     attr_reader :name
     attr_reader :hand
     attr_reader :face_up

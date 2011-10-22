@@ -14,9 +14,14 @@ class Card
         "#{RANKS[@rank]} of #{SUITS[@suit]}"
     end
 
-    def <=> other
+    def equals? other
         return nil unless other.instance_of? Card
-        return self.rank <=> other.rank
+        return (self.rank == other.rank and self.suit == other.suit)
+    end
+
+    def equals_rank? other
+        return nil unless other.instance_of? Card
+        return self.rank == other.rank
     end
 
     attr_reader :rank
@@ -32,7 +37,7 @@ def sh_compare card1, card2
     elsif (special_card card2)
         return -1
     else
-        card1 <=> card2
+        card1.rank <=> card2.rank
     end
 end
 
