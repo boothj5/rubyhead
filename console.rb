@@ -67,3 +67,30 @@ def show_player player, include_face_down
         newlines 1
     end
 end
+
+def request_swap name
+    print "#{name}, would you like to swap cards?"
+    (gets.chomp.downcase == "y") ? true : false
+end
+
+def request_swap_more
+    print 'Would you like to swap more cards? '
+    (gets.chomp.downcase == "y") ? true : false
+end
+
+def request_hand_swap num_cards
+    print "Choose a hand card (1-#{num_cards}): "
+    gets.chomp.to_i - 1
+
+end
+
+def request_face_up_swap num_cards
+    print "Choose a face up card (1-#{num_cards}): "
+    gets.chomp.to_i - 1
+end
+
+
+
+
+
+
