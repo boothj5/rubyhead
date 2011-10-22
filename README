@@ -1,1 +1,5 @@
 Ruby implementation of the card game shithead
+
+To run:
+
+    ruby rubyhead.rb
