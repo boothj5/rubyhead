@@ -42,24 +42,28 @@ def show_game game
     newline
 
     game.players.each do |player|
-        puts "Players : #{player.name}"
-        print 'HAND      : '
-        player.hand.each do |card|
-            print "#{card}, "
-        end
+        show_player player, true
         newlines 1
-        print 'FACE UP   : '
-        player.face_up.each do |card|
-            print "#{card}, "
-        end
-        newlines 1
+    end
+end
+
+def show_player player, include_face_down
+    puts "Player : #{player.name}"
+    print 'HAND      : '
+    player.hand.each do |card|
+        print "#{card}, "
+    end
+    newlines 1
+    print 'FACE UP   : '
+    player.face_up.each do |card|
+        print "#{card}, "
+    end
+    newlines 1
+    if include_face_down
         print 'FACE DOWN : '
         player.face_down.each do |card|
             print "#{card}, "
         end
-        newlines 2
+        newlines 1
     end
 end
-
-
-
