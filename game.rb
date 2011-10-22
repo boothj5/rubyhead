@@ -17,6 +17,7 @@ class Game
                 player.face_up.push @deck.remove_card
                 player.face_down.push @deck.remove_card
             end
+            player.hand.sort! {|a,b| sh_compare a,b}
         end
     end
 
