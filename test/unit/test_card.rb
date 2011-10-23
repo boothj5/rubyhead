@@ -68,15 +68,15 @@ class TestCard < Test::Unit::TestCase
     end
 
     def test_special_card_two
-        assert (special_card(Card.new 2, 3))
+        assert (special_card?(Card.new 2, 3))
     end
 
     def test_special_card_seven
-        assert (special_card(Card.new 7, 3))
+        assert (special_card?(Card.new 7, 3))
     end
 
     def test_special_card_ten
-        assert (special_card(Card.new 10, 3))
+        assert (special_card?(Card.new 10, 3))
     end
 
     def test_special_carda_equal

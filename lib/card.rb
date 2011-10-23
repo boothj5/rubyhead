@@ -30,17 +30,17 @@ end
 
 def sh_compare card1, card2
     return false unless (card1.instance_of? Card and card2.instance_of? Card)
-    if (special_card card1 and special_card card2)
+    if (special_card? card1 and special_card? card2)
         return 0
-    elsif (special_card card1 and not special_card card2)
+    elsif (special_card? card1 and not special_card? card2)
         return 1
-    elsif (special_card card2)
+    elsif (special_card? card2)
         return -1
     else
         card1.rank <=> card2.rank
     end
 end
 
-def special_card card
+def special_card? card
     return (card.rank == 2 or card.rank == 7 or card.rank == 10)
 end
