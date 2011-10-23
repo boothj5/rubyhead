@@ -1,4 +1,4 @@
-require './card.rb'
+require './lib/card.rb'
 require 'test/unit'
 
 class TestCard < Test::Unit::TestCase
@@ -82,30 +82,30 @@ class TestCard < Test::Unit::TestCase
     def test_special_carda_equal
         card1 = Card.new 2, 4
         card2 = Card.new 10, 2
-        assert_equal sh_compare(card1, card2), 0
+        assert_equal 0, sh_compare(card1, card2)
     end
 
     def test_first_special_greater
          card1 = Card.new 2, 4
          card2 = Card.new 4, 2
-         assert_equal sh_compare(card1, card2), 1
+         assert_equal 1, sh_compare(card1, card2)
     end
 
     def test_second_special_less
          card1 = Card.new 8, 4
          card2 = Card.new 10, 2
-         assert_equal sh_compare(card1, card2), -1
+         assert_equal -1, sh_compare(card1, card2)
     end
 
     def test_eight_greater_than_four
         card1 = Card.new 8, 4
         card2 = Card.new 4, 2
-        assert_equal sh_compare(card1, card2), 1
+        assert_equal 1, sh_compare(card1, card2)
     end
 
     def test_jack_less_than_queen
         card1 = Card.new 11, 4
         card2 = Card.new 12, 2
-        assert_equal sh_compare(card1, card2), -1
+        assert_equal -1, sh_compare(card1, card2)
     end
 end

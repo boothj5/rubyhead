@@ -1,7 +1,7 @@
-require './console.rb'
-require './deck.rb'
-require './game.rb'
-require './player.rb'
+require './lib/console.rb'
+require './lib/deck.rb'
+require './lib/game.rb'
+require './lib/player.rb'
 
 clearscreen
 show_welcome_msg

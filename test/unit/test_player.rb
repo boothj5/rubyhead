@@ -1,7 +1,7 @@
-require './player.rb'
+require './lib/player.rb'
 require 'test/unit'
 
-class TestCard < Test::Unit::TestCase
+class TestPlayer < Test::Unit::TestCase
 
     def test_create_sets_name
         player = Player.new "James"
@@ -62,7 +62,7 @@ class TestCard < Test::Unit::TestCase
         player.hand.push ten_hearts
         player.hand.push four_diamonds
         
-        assert_equal player.lowest_hand_card, four_diamonds
+        assert_equal four_diamonds, player.lowest_hand_card
     end
 end
 
