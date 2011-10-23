@@ -21,7 +21,7 @@ game.players.each do |player|
     while swap
         hand_card = request_hand_swap ncards
         face_up_card = request_face_up_swap ncards
-        player.swap hand_card, face_up_card
+        player.swap! hand_card, face_up_card
         clearscreen
         show_player player, false
         newline

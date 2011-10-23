@@ -2,4 +2,5 @@ task :default => [:test]
 
   task :test do
     ruby "test/unit/card_test.rb"
+    ruby "test/unit/player_test.rb"
   end
