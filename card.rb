@@ -11,7 +11,7 @@ class Card
     end
 
     def to_s
-        "#{RANKS[@rank]} of #{SUITS[@suit]}"
+        return "#{RANKS[@rank]} of #{SUITS[@suit]}"
     end
 
     def equals? other
