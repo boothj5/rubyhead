@@ -49,6 +49,14 @@ class Game
         end
 
         play_from_hand! to_lay
+        move_to_next_player!
+    end
+
+    def move_to_next_player!
+        @current_player+=1
+        if @current_player >= @players.size
+            @current_player = 0
+        end
     end
 
     def play_from_hand! to_lay
@@ -61,6 +69,20 @@ class Game
             move += "#{card}, "
         end
         @last_move = move
+    end
+
+    def make_move! to_lay
+        cards_to_lay = Array.new
+        to_lay.each do |i|
+            cards_to_lay.push @players[@current_player].hand[i]
+        end
+
+        play_from_hand! cards_to_lay
+        move_to_next_player!
+    end
+
+    def get_current_player
+        @players[@current_player]
     end
 
     attr_reader :players

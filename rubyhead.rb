@@ -29,6 +29,11 @@ game.players.each do |player|
     end
 end 
 
-clearscreen
 game.first_move!
-show_game game
+
+while true do
+    clearscreen
+    show_game game
+    chosen_cards = request_move game.get_current_player
+    game.make_move! chosen_cards
+end

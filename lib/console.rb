@@ -99,6 +99,11 @@ def request_face_up_swap num_cards
     gets.chomp.to_i - 1
 end
 
+def request_move player
+    print "#{player.name}, choose cards to lay: "
+    gets.chomp.split(',').map { |ch| ch.to_i - 1}
+end
+
 
 
 
