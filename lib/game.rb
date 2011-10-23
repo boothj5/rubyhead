@@ -3,15 +3,15 @@ require './lib/deck.rb'
 
 class Game
 
-    def initialize player_names, num_cards_each
+    def initialize(player_names, num_cards_each)
         @cards_each = num_cards_each
-        @deck = Deck.new player_names.size, num_cards_each
+        @deck = Deck.new(player_names.size, num_cards_each)
         @pile = Array.new
         @last_move = ''
         @deck.shuffle!
         @players = Array.new
         player_names.each do |name|
-            @players.push Player.new name
+            @players.push Player.new(name)
         end
         @current_player = 0
     end
@@ -23,7 +23,7 @@ class Game
                 player.face_up.push @deck.remove_card
                 player.face_down.push @deck.remove_card
             end
-            player.hand.sort! {|a,b| sh_compare a,b}
+            player.hand.sort! {|a,b| sh_compare(a,b)}
         end
     end
 
@@ -61,7 +61,7 @@ class Game
 
     def play_from_hand! to_lay
         to_lay.each do |card|
-            @pile.push @players[@current_player].hand.delete card
+            @pile.push(@players[@current_player].hand.delete card)
             @players[@current_player].hand.push @deck.remove_card
         end
         move = "#{@players[@current_player].name} laid the "

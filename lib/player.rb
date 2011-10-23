@@ -8,11 +8,11 @@ class Player
         @face_down = Array.new
     end
 
-    def swap! hand_card, face_up_card
+    def swap!(hand_card, face_up_card)
         temp = @hand[hand_card]
         @hand[hand_card] = @face_up[face_up_card]
         @face_up[face_up_card] = temp
-        @hand.sort! {|a,b| sh_compare a, b}
+        @hand.sort! {|a,b| sh_compare(a, b)}
     end
         
     def lowest_hand_card

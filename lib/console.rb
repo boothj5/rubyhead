@@ -43,14 +43,14 @@ def show_game game
     newline
 
     game.players.each do |player|
-        show_player player, true
+        show_player(player, true)
         newline
     end
     puts game.last_move
     newline
 end
 
-def show_player player, include_face_down
+def show_player(player, include_face_down)
     puts "Player : #{player.name}"
     print 'HAND      : '
     player.hand.each do |card|

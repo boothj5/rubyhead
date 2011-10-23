@@ -2,14 +2,14 @@ require './lib/card.rb'
 
 class Deck
 
-    def initialize num_players, num_cards_each
+    def initialize(num_players, num_cards_each)
         @deck = Array.new
-        num_decks = Deck.calc_num_decks num_players, num_cards_each
+        num_decks = Deck.calc_num_decks(num_players, num_cards_each)
 
         (1..num_decks).each do 
             (2..Card::RANKS.size+1).each do |rank|
                 (1..Card::SUITS.size).each do |suit|
-                    add_card Card.new rank, suit
+                    add_card Card.new(rank, suit)
                 end
             end
         end
@@ -39,12 +39,11 @@ class Deck
         size.downto(1) { |n| add_card remove_card_at(rand(n)) }
     end
 
-    def self.calc_num_decks num_players, num_cards_each
+    def self.calc_num_decks(num_players, num_cards_each)
         total_cards = (num_cards_each * 3) * num_players
         div = total_cards / 52
         add = ((total_cards % 52) > 0) ? 1 : 0
         return div + add
     end
-    
 end
         

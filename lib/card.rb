@@ -5,7 +5,7 @@ class Card
               12 => 'QUEEN', 13 => 'KING', 14 => 'ACE' }
     SUITS = { 1 => 'HEARTS', 2 => 'SPADES', 3 => 'CLUBS', 4 => 'DIAMONDS' }
 
-    def initialize rank, suit
+    def initialize(rank, suit)
         @rank = rank
         @suit = suit
     end
@@ -32,7 +32,7 @@ class Card
     attr_reader :suit
 end
 
-def sh_compare card1, card2
+def sh_compare(card1, card2)
     return false unless (card1.instance_of? Card and card2.instance_of? Card)
     if (card1.special_card? and card2.special_card?)
         return 0

@@ -8,22 +8,22 @@ show_welcome_msg
 nplayers = request_num_players
 ncards = request_num_cards
 player_names = request_player_names nplayers
-game = Game.new player_names, ncards
+game = Game.new(player_names, ncards)
 game.deal!
 
 
 game.players.each do |player|
     clearscreen
-    show_player player, false
+    show_player(player, false)
     newline
     swap = request_swap player.name
 
     while swap
         hand_card = request_hand_swap ncards
         face_up_card = request_face_up_swap ncards
-        player.swap! hand_card, face_up_card
+        player.swap!(hand_card, face_up_card)
         clearscreen
-        show_player player, false
+        show_player(player, false)
         newline
         swap = request_swap_more
     end
