@@ -31,7 +31,7 @@ end
 
 game.first_move!
 
-while true do
+while game.continue? do
     clearscreen
     show_game game
     chosen_cards = request_move game.get_current_player

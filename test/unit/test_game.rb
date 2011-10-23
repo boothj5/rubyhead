@@ -264,4 +264,28 @@ class TestGame < Test::Unit::TestCase
         assert @game.last_move =~ /TWO of CLUBS/i
         assert @game.last_move =~ /TWO of HEARTS/i
     end
+
+    def test_continue_game_when_three_players_with_cards
+        create_game 3
+        @game.players[0].hand.push Card.new 3, 4
+        @game.players[1].face_up.push Card.new 6, 1
+        @game.players[2].face_down.push Card.new 10, 2
+
+        assert @game.continue?
+    end
+
+    def test_continue_game_when_two_players_with_cards
+        create_game 3
+        @game.players[0].hand.push Card.new 3, 4
+        @game.players[1].face_up.push Card.new 6, 1
+
+        assert @game.continue?
+    end
+
+    def test_not_continue_when_one_player_with_cards
+        create_game 3
+        @game.players[0].hand.push Card.new 2, 3
+    
+        assert (not @game.continue?)
+    end
 end

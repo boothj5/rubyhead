@@ -64,6 +64,35 @@ class TestPlayer < Test::Unit::TestCase
         
         assert_equal four_diamonds, player.lowest_hand_card
     end
+
+    def test_player_has_cards_when_hand_has
+        player = Player.new "James"
+        player.hand.push Card.new 2, 3
+    
+        assert player.has_cards?
+    end
+
+    def test_player_has_cards_when_face_up_does
+        player = Player.new "James"
+        player.face_up.push Card.new 5, 1
+
+        assert player.has_cards?
+    end
+
+    def test_player_has_cards_when_face_down_does
+        player = Player.new "James"
+        player.face_down.push Card.new 10, 4
+
+        assert player.has_cards?
+    end
+
+    def test_player_doesnt_have_cards
+        player = Player.new "James"
+        
+        assert (not player.has_cards?)
+    end
+
+    
 end
 
     

@@ -24,6 +24,10 @@ class Player
         end
         lowest_card
     end
+
+    def has_cards?
+        return true unless ((@hand.empty?) and (@face_up.empty?) and (@face_down.empty?))
+    end
     
     attr_reader :name
     attr_reader :hand

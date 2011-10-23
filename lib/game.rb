@@ -85,6 +85,16 @@ class Game
         @players[@current_player]
     end
 
+    def continue?
+        players_with_cards = 0
+        @players.each do |player|
+            if player.has_cards?
+                players_with_cards += 1
+            end
+        end
+        return players_with_cards > 1
+    end
+
     attr_reader :players
     attr_reader :deck
     attr_reader :pile
