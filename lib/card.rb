@@ -24,23 +24,25 @@ class Card
         return self.rank == other.rank
     end
 
+    def special_card?
+        return (@rank == 2 or @rank == 7 or @rank == 10)
+    end
+    
     attr_reader :rank
     attr_reader :suit
 end
 
 def sh_compare card1, card2
     return false unless (card1.instance_of? Card and card2.instance_of? Card)
-    if (special_card? card1 and special_card? card2)
+    if (card1.special_card? and card2.special_card?)
         return 0
-    elsif (special_card? card1 and not special_card? card2)
+    elsif (card1.special_card? and not card2.special_card?)
         return 1
-    elsif (special_card? card2)
+    elsif (card2.special_card?)
         return -1
     else
         card1.rank <=> card2.rank
     end
 end
 
-def special_card? card
-    return (card.rank == 2 or card.rank == 7 or card.rank == 10)
-end
+
