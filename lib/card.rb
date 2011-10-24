@@ -14,7 +14,7 @@ class Card
         return "#{RANKS[@rank]} of #{SUITS[@suit]}"
     end
 
-    def equals? other
+    def == other
         return nil unless other.instance_of? Card
         return (self.rank == other.rank and self.suit == other.suit)
     end

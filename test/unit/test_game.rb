@@ -92,58 +92,46 @@ class TestGame < Test::Unit::TestCase
 
     def test_first_move_lays_both_if_same
         create_game 3
-        eleven = Card.new(11, 4)
-        three = Card.new(3, 3)
-        another_three = Card.new(3, 1)
-        @game.players[0].hand.push(eleven, three, another_three)
+        @game.players[0].hand.push(Card.new(11, 4), Card.new(3, 3), Card.new(3, 1))
         @game.players[1].hand.push(Card.new(4, 2), Card.new(5, 2), Card.new(6, 2))
         @game.players[2].hand.push(Card.new(7, 2), Card.new(8, 2), Card.new(9, 2))
 
         @game.first_move!
 
-        assert(@game.pile.include? three)
-        assert(@game.pile.include? another_three)
+        assert(@game.pile.include? Card.new(3, 3))
+        assert(@game.pile.include? Card.new(3, 1))
     end
 
     def test_play_from_hand_removes_from_hand
         create_game 3
-        eleven = Card.new(11, 4)
-        two = Card.new(2, 3)
-        another_two = Card.new(2, 1)
-        @game.players[0].hand.push(eleven, two, another_two)
+        @game.players[0].hand.push(Card.new(11, 4), Card.new(2, 3), Card.new(2, 1))
         to_lay = Array.new
-        to_lay.push two
-        to_lay.push another_two
+        to_lay.push Card.new(2, 3)
+        to_lay.push Card.new(2, 1)
         @game.play_from_hand! to_lay
 
-        assert (not(@game.players[0].hand.include? two))
-        assert (not(@game.players[0].hand.include? another_two))
+        assert (not(@game.players[0].hand.include? Card.new(2, 3)))
+        assert (not(@game.players[0].hand.include? Card.new(2, 1)))
     end
 
     def test_play_from_hand_adds_to_pile
         create_game 3
-        eleven = Card.new(11, 4)
-        two = Card.new(2, 3)
-        another_two = Card.new(2, 1)
-        @game.players[0].hand.push(eleven, two, another_two)
+        @game.players[0].hand.push(Card.new(11, 4), Card.new(2, 3), Card.new(2, 1))
         to_lay = Array.new
-        to_lay.push two
-        to_lay.push another_two
+        to_lay.push Card.new(2, 3)
+        to_lay.push Card.new(2, 1)
         @game.play_from_hand! to_lay
 
-        assert(@game.pile.include? two)
-        assert(@game.pile.include? another_two)
+        assert(@game.pile.include? Card.new(2, 3))
+        assert(@game.pile.include? Card.new(2, 1))
     end
 
     def test_play_from_hand_includes_card_in_last_move
         create_game 3
-        eleven = Card.new(11, 4)
-        two = Card.new(2, 3)
-        another_two = Card.new(2, 1)
-        @game.players[0].hand.push(eleven, two, another_two)
+        @game.players[0].hand.push(Card.new(11, 4), Card.new(2, 3), Card.new(2, 1))
         to_lay = Array.new
-        to_lay.push two
-        to_lay.push another_two
+        to_lay.push Card.new(2, 3)
+        to_lay.push Card.new(2, 1)
         @game.play_from_hand! to_lay
 
         assert(@game.last_move =~ /TWO of CLUBS/i)
@@ -157,13 +145,9 @@ class TestGame < Test::Unit::TestCase
 
     def test_get_current_player_after_first_move
         create_game 3
-        eleven = Card.new(11, 4)
-        three = Card.new(3, 3)
-        another_three = Card.new(3, 1)
-        @game.players[0].hand.push(eleven, three, another_three)
+        @game.players[0].hand.push(Card.new(11, 4), Card.new(3, 3), Card.new(3, 1))
         @game.players[1].hand.push(Card.new(4, 2), Card.new(5, 2), Card.new(6, 2))
         @game.players[2].hand.push(Card.new(7, 2), Card.new(8, 2), Card.new(9, 2))
-
         @game.first_move!
 
         assert_equal(1, @game.players.index(@game.get_current_player))
@@ -195,40 +179,31 @@ class TestGame < Test::Unit::TestCase
 
     def test_make_move_removes_from_hand
         create_game 3
-        eleven = Card.new(11, 4)
-        two = Card.new(2, 3)
-        another_two = Card.new(2, 1)
-        @game.players[0].hand.push(eleven, two, another_two)
+        @game.players[0].hand.push(Card.new(11, 4), Card.new(2, 3), Card.new(2, 1))
         to_lay = Array.new
         to_lay.push 1
         to_lay.push 2
         @game.make_move! to_lay
 
-        assert(not(@game.players[0].hand.include? two))
-        assert(not(@game.players[0].hand.include? another_two))
+        assert(not(@game.players[0].hand.include? Card.new(2, 3)))
+        assert(not(@game.players[0].hand.include? Card.new(2, 1)))
     end
 
     def test_make_move_adds_to_pile
         create_game 3
-        eleven = Card.new(11, 4)
-        two = Card.new(2, 3)
-        another_two = Card.new(2, 1)
-        @game.players[0].hand.push(eleven, two, another_two)
+        @game.players[0].hand.push(Card.new(11, 4), Card.new(2, 3), Card.new(2, 1))
         to_lay = Array.new
         to_lay.push 1
         to_lay.push 2
         @game.make_move! to_lay
 
-        assert(@game.pile.include? two)
-        assert(@game.pile.include? another_two)
+        assert(@game.pile.include? Card.new(2, 3))
+        assert(@game.pile.include? Card.new(2, 1))
     end
 
     def test_make_move_includes_card_in_last_move
         create_game 3
-        eleven = Card.new(11, 4)
-        two = Card.new(2, 3)
-        another_two = Card.new(2, 1)
-        @game.players[0].hand.push(eleven, two, another_two)
+        @game.players[0].hand.push(Card.new(11, 4), Card.new(2, 3), Card.new(2, 1))
         to_lay = Array.new
         to_lay.push 1
         to_lay.push 2
@@ -355,5 +330,23 @@ class TestGame < Test::Unit::TestCase
 
         assert @game.current_player_can_move?
     end
-   
+
+    def test_pick_up_adds_pile_to_players_hand
+        create_game 3
+        @game.pile.push(Card.new(2, 3), Card.new(8, 1), Card.new(5, 2))
+        @game.pick_up!
+        player = @game.get_current_player
+        result = ((player.hand.include? Card.new(2, 3)) and (player.hand.include? Card.new(8, 1)) and
+                (player.hand.include? Card.new(5, 2)))
+
+        assert result
+    end
+
+    def test_pick_up_remove_from_pile
+        create_game 3
+        @game.pile.push(Card.new(2, 3), Card.new(8, 1), Card.new(5, 2))
+        @game.pick_up!
+    
+        assert @game.pile.empty?
+    end
 end

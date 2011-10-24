@@ -50,6 +50,10 @@ class Player
     def has_cards_in_face_up?
         return true unless @face_up.empty?
     end
+
+    def add_to_hand! cards
+        @hand += cards
+    end
     
     attr_reader :name
     attr_reader :hand

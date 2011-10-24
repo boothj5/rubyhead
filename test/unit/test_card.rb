@@ -22,25 +22,25 @@ class TestCard < Test::Unit::TestCase
     def test_equal_when_equal_using_first
         card1 = Card.new(4, 3)
         card2 = Card.new(4, 3)
-        assert(card1.equals? card2)
+        assert(card1 == card2)
     end
 
     def test_equal_when_equal_using_second
         card1 = Card.new(4, 3)
         card2 = Card.new(4, 3)
-        assert(card2.equals? card1)
+        assert(card2 == card1)
     end
 
     def test_not_equal_when_not_using_first
         card1 = Card.new(4, 2)
         card2 = Card.new(3, 1)
-        assert(not(card1.equals? card2))
+        assert(not(card1 == card2))
     end
 
     def test_not_equal_when_not_using_second
         card1 = Card.new(4, 2)
         card2 = Card.new(12, 2)
-        assert(not(card2.equals? card1))
+        assert(not(card2 == card1))
     end
 
     def test_ranks_equal_when_equal_using_first

@@ -201,6 +201,14 @@ class TestPlayer < Test::Unit::TestCase
 
         assert(not(player.has_special_card_in_face_up?))
     end
+
+    def test_add_to_hand_adds_cards
+        player = Player.new "James"
+        player.hand.push(Card.new(2, 4), Card.new(9, 1))
+        player.add_to_hand!( [ Card.new(10, 4), Card.new(8, 3) ] )
+
+        assert ((player.hand.include? Card.new(10, 4)) and (player.hand.include? Card.new(8, 3)))
+    end
 end
 
     

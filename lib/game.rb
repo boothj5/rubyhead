@@ -43,7 +43,7 @@ class Game
         to_lay.push @players[@current_player].lowest_hand_card
 
         @players[@current_player].hand.each do |card|
-            if ((card.equals_rank? to_lay[0]) and not (card.equals? to_lay[0]))
+            if ((card.equals_rank? to_lay[0]) and not (card == to_lay[0]))
                 to_lay.push card
             end
         end
@@ -119,6 +119,13 @@ class Game
         end
         return false
     end
+
+    def pick_up!
+        @players[@current_player].add_to_hand! @pile
+        @pile.clear
+        @last_move = "#{@players[@current_player].name} picked up"
+    end
+        
 
     attr_reader :players
     attr_reader :deck

@@ -38,5 +38,7 @@ while game.continue? do
         game.make_move! chosen_cards
     else
         show_pickup_msg game.get_current_player.name
+        game.pick_up!
+        game.move_to_next_player!
     end
 end
