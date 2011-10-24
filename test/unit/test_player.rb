@@ -91,6 +91,116 @@ class TestPlayer < Test::Unit::TestCase
         
         assert (not player.has_cards?)
     end
+
+    def test_has_special_card_in_hand_when_two
+        player = Player.new "James"
+        player.hand.push Card.new(5, 3)
+        player.hand.push Card.new(2, 1)
+        player.hand.push Card.new(6, 4)
+
+        assert player.has_special_card_in_hand?
+    end
+
+    def test_has_special_card_in_hand_when_seven
+        player = Player.new "James"
+        player.hand.push Card.new(5, 3)
+        player.hand.push Card.new(7, 1)
+        player.hand.push Card.new(6, 4)
+
+        assert player.has_special_card_in_hand?
+    end
+
+    def test_has_special_card_in_hand_when_ten
+        player = Player.new "James"
+        player.hand.push Card.new(5, 3)
+        player.hand.push Card.new(10, 1)
+        player.hand.push Card.new(6, 4)
+
+        assert player.has_special_card_in_hand?
+    end
+
+    def test_not_has_special_card_when_no_cards
+        player = Player.new "James"
+
+        assert(not(player.has_special_card_in_hand?))
+    end
+
+    def test_not_has_special_card_when_no_special
+        player = Player.new "James"
+        player.hand.push Card.new(3,4)
+        player.hand.push Card.new(9,1)
+        player.hand.push Card.new(14,4)
+
+        assert(not(player.has_special_card_in_hand?))
+    end
+
+    def test_has_cards_in_hand
+        player = Player.new "James"
+        player.hand.push Card.new(2, 3)
+
+        assert player.has_cards_in_hand?
+    end
+
+    def test_not_has_cards_in_hand
+        player = Player.new "James"
+        
+        assert (not(player.has_cards_in_hand?))
+    end
+
+    def test_has_cards_in_face_up
+        player = Player.new "James"
+        player.face_up.push Card.new(6, 1)
+
+        assert player.has_cards_in_face_up?
+    end
+
+    def test_not_has_cards_in_face_up
+        player = Player.new "James"
+        
+        assert (not(player.has_cards_in_face_up?))
+    end
+    
+    def test_has_special_card_in_face_up_when_two
+        player = Player.new "James"
+        player.face_up.push Card.new(5, 3)
+        player.face_up.push Card.new(2, 1)
+        player.face_up.push Card.new(6, 4)
+
+        assert player.has_special_card_in_face_up?
+    end
+
+    def test_has_special_card_in_face_up_when_seven
+        player = Player.new "James"
+        player.face_up.push Card.new(5, 3)
+        player.face_up.push Card.new(7, 1)
+        player.face_up.push Card.new(6, 4)
+
+        assert player.has_special_card_in_face_up?
+    end
+
+    def test_has_special_card_in_face_up_when_ten
+        player = Player.new "James"
+        player.face_up.push Card.new(5, 3)
+        player.face_up.push Card.new(10, 1)
+        player.face_up.push Card.new(6, 4)
+
+        assert player.has_special_card_in_face_up?
+    end
+
+    def test_not_has_special_card_face_up_when_no_cards
+        player = Player.new "James"
+
+        assert(not(player.has_special_card_in_face_up?))
+    end
+
+    def test_not_has_special_card_face_up_when_no_special
+        player = Player.new "James"
+        player.face_up.push Card.new(3,4)
+        player.face_up.push Card.new(9,1)
+        player.face_up.push Card.new(14,4)
+
+        assert(not(player.has_special_card_in_face_up?))
+    end
 end
 
     

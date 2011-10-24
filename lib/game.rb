@@ -95,6 +95,31 @@ class Game
         return players_with_cards > 1
     end
 
+    def current_player_can_move?
+        if @pile.empty? 
+            return true
+        elsif @players[@current_player].has_cards_in_hand?
+            if @players[@current_player].has_special_card_in_hand?
+                return true
+            end
+            @players[@current_player].hand.each do |card|
+                if (card.rank >= @pile.last.rank)
+                    return true    
+                end
+            end
+        elsif @players[@current_player].has_cards_in_face_up?
+            if @players[@current_player].has_special_card_in_face_up?
+                return true
+            end
+            @players[@current_player].face_up.each do |card|
+                if (card.rank >= @pile.last.rank)
+                    return true
+                end
+            end
+        end
+        return false
+    end
+
     attr_reader :players
     attr_reader :deck
     attr_reader :pile

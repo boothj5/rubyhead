@@ -104,8 +104,7 @@ def request_move player
     gets.chomp.split(',').map { |ch| ch.to_i - 1}
 end
 
-
-
-
-
-
+def show_pickup_msg name
+    print "Oh dear #{name}, you must pickup, press enter."
+    gets
+end

@@ -71,12 +71,9 @@ class TestGame < Test::Unit::TestCase
     
     def test_player_with_lowest_returns_lowest
         create_game 3
-        @game.players[0].hand.push Card.new(11, 4)
-        @game.players[0].hand.push Card.new(5, 2)
-        @game.players[1].hand.push Card.new(2, 1)
-        @game.players[1].hand.push Card.new(9, 3)
-        @game.players[2].hand.push Card.new(6, 2)
-        @game.players[2].hand.push Card.new(4, 4)
+        @game.players[0].hand.push(Card.new(11, 4), Card.new(5, 2))
+        @game.players[1].hand.push(Card.new(2, 1), Card.new(9, 3))
+        @game.players[2].hand.push(Card.new(6, 2), Card.new(4, 4))
         result = @game.player_with_lowest
         
         assert_equal(2, result)
@@ -98,15 +95,9 @@ class TestGame < Test::Unit::TestCase
         eleven = Card.new(11, 4)
         three = Card.new(3, 3)
         another_three = Card.new(3, 1)
-        @game.players[0].hand.push eleven
-        @game.players[0].hand.push three
-        @game.players[0].hand.push another_three
-        @game.players[1].hand.push Card.new(4, 2)
-        @game.players[1].hand.push Card.new(5, 2)
-        @game.players[1].hand.push Card.new(6, 2)
-        @game.players[2].hand.push Card.new(7, 2)
-        @game.players[2].hand.push Card.new(8, 2)
-        @game.players[2].hand.push Card.new(9, 2)
+        @game.players[0].hand.push(eleven, three, another_three)
+        @game.players[1].hand.push(Card.new(4, 2), Card.new(5, 2), Card.new(6, 2))
+        @game.players[2].hand.push(Card.new(7, 2), Card.new(8, 2), Card.new(9, 2))
 
         @game.first_move!
 
@@ -119,9 +110,7 @@ class TestGame < Test::Unit::TestCase
         eleven = Card.new(11, 4)
         two = Card.new(2, 3)
         another_two = Card.new(2, 1)
-        @game.players[0].hand.push eleven
-        @game.players[0].hand.push two
-        @game.players[0].hand.push another_two
+        @game.players[0].hand.push(eleven, two, another_two)
         to_lay = Array.new
         to_lay.push two
         to_lay.push another_two
@@ -136,9 +125,7 @@ class TestGame < Test::Unit::TestCase
         eleven = Card.new(11, 4)
         two = Card.new(2, 3)
         another_two = Card.new(2, 1)
-        @game.players[0].hand.push eleven
-        @game.players[0].hand.push two
-        @game.players[0].hand.push another_two
+        @game.players[0].hand.push(eleven, two, another_two)
         to_lay = Array.new
         to_lay.push two
         to_lay.push another_two
@@ -153,9 +140,7 @@ class TestGame < Test::Unit::TestCase
         eleven = Card.new(11, 4)
         two = Card.new(2, 3)
         another_two = Card.new(2, 1)
-        @game.players[0].hand.push eleven
-        @game.players[0].hand.push two
-        @game.players[0].hand.push another_two
+        @game.players[0].hand.push(eleven, two, another_two)
         to_lay = Array.new
         to_lay.push two
         to_lay.push another_two
@@ -175,15 +160,9 @@ class TestGame < Test::Unit::TestCase
         eleven = Card.new(11, 4)
         three = Card.new(3, 3)
         another_three = Card.new(3, 1)
-        @game.players[0].hand.push eleven
-        @game.players[0].hand.push three
-        @game.players[0].hand.push another_three
-        @game.players[1].hand.push Card.new(4, 2)
-        @game.players[1].hand.push Card.new(5, 2)
-        @game.players[1].hand.push Card.new(6, 2)
-        @game.players[2].hand.push Card.new(7, 2)
-        @game.players[2].hand.push Card.new(8, 2)
-        @game.players[2].hand.push Card.new(9, 2)
+        @game.players[0].hand.push(eleven, three, another_three)
+        @game.players[1].hand.push(Card.new(4, 2), Card.new(5, 2), Card.new(6, 2))
+        @game.players[2].hand.push(Card.new(7, 2), Card.new(8, 2), Card.new(9, 2))
 
         @game.first_move!
 
@@ -219,9 +198,7 @@ class TestGame < Test::Unit::TestCase
         eleven = Card.new(11, 4)
         two = Card.new(2, 3)
         another_two = Card.new(2, 1)
-        @game.players[0].hand.push eleven
-        @game.players[0].hand.push two
-        @game.players[0].hand.push another_two
+        @game.players[0].hand.push(eleven, two, another_two)
         to_lay = Array.new
         to_lay.push 1
         to_lay.push 2
@@ -236,9 +213,7 @@ class TestGame < Test::Unit::TestCase
         eleven = Card.new(11, 4)
         two = Card.new(2, 3)
         another_two = Card.new(2, 1)
-        @game.players[0].hand.push eleven
-        @game.players[0].hand.push two
-        @game.players[0].hand.push another_two
+        @game.players[0].hand.push(eleven, two, another_two)
         to_lay = Array.new
         to_lay.push 1
         to_lay.push 2
@@ -253,9 +228,7 @@ class TestGame < Test::Unit::TestCase
         eleven = Card.new(11, 4)
         two = Card.new(2, 3)
         another_two = Card.new(2, 1)
-        @game.players[0].hand.push eleven
-        @game.players[0].hand.push two
-        @game.players[0].hand.push another_two
+        @game.players[0].hand.push(eleven, two, another_two)
         to_lay = Array.new
         to_lay.push 1
         to_lay.push 2
@@ -288,4 +261,99 @@ class TestGame < Test::Unit::TestCase
     
         assert(not(@game.continue?))
     end
+
+    def test_current_player_can_move_when_no_cards_on_pile_card_in_hand
+        create_game 3
+        @game.players[0].hand.push Card.new(3, 4)
+    
+        assert @game.current_player_can_move?
+    end
+
+    def test_current_player_can_move_when_has_two_in_hand
+        create_game 3
+        @game.players[0].hand.push(Card.new(3, 4), Card.new(2, 3), Card.new(11, 3))
+        @game.pile.push Card.new(12, 1)
+       
+        assert @game.current_player_can_move?
+    end 
+
+    def test_current_player_can_move_when_has_seven_in_hand
+        create_game 3
+        @game.players[0].hand.push(Card.new(3, 4), Card.new(7, 3), Card.new(11, 3))
+        @game.pile.push Card.new(12, 1)
+       
+        assert @game.current_player_can_move?
+    end 
+
+    def test_current_player_can_move_when_has_ten_in_hand
+        create_game 3
+        @game.players[0].hand.push(Card.new(3, 4), Card.new(10, 3), Card.new(11, 3))
+        @game.pile.push Card.new(12, 1)
+       
+        assert @game.current_player_can_move?
+    end 
+
+    def test_current_player_can_move_when_same_rank_as_pile_in_hand
+        create_game 3
+        @game.players[0].hand.push(Card.new(3, 4), Card.new(13, 1), Card.new(6, 4))
+        @game.pile.push Card.new(13, 2)
+
+        assert @game.current_player_can_move?
+    end
+        
+    def test_current_player_can_move_when_greater_rank_than_pile_in_hand
+        create_game 3
+        @game.players[0].hand.push(Card.new(3, 4), Card.new(14, 1), Card.new(6, 4))
+        @game.pile.push Card.new(13, 2)
+
+        assert @game.current_player_can_move?
+    end
+
+    def test_current_player_can_move_when_no_cards_on_pile_card_in_face_up
+        create_game 3
+        @game.players[0].face_up.push Card.new(3, 4)
+    
+        assert @game.current_player_can_move?
+    end
+
+    def test_current_player_can_move_when_has_two_in_face_up
+        create_game 3
+        @game.players[0].face_up.push(Card.new(3, 4), Card.new(2, 3), Card.new(11, 3))
+        @game.pile.push Card.new(12, 1)
+       
+        assert @game.current_player_can_move?
+    end 
+
+    def test_current_player_can_move_when_has_seven_in_face_up
+        create_game 3
+        @game.players[0].face_up.push(Card.new(3, 4), Card.new(7, 3), Card.new(11, 3))
+        @game.pile.push Card.new(12, 1)
+       
+        assert @game.current_player_can_move?
+    end 
+
+    def test_current_player_can_move_when_has_ten_in_face_up
+        create_game 3
+        @game.players[0].face_up.push(Card.new(3, 4), Card.new(10, 3), Card.new(11, 3))
+        @game.pile.push Card.new(12, 1)
+       
+        assert @game.current_player_can_move?
+    end 
+
+    def test_current_player_can_move_when_same_rank_as_pile_in_face_up
+        create_game 3
+        @game.players[0].face_up.push(Card.new(3, 4), Card.new(13, 1), Card.new(6, 4))
+        @game.pile.push Card.new(13, 2)
+
+        assert @game.current_player_can_move?
+    end
+        
+    def test_current_player_can_move_when_greater_rank_than_pile_in_face_up
+        create_game 3
+        @game.players[0].face_up.push(Card.new(3, 4), Card.new(14, 1), Card.new(6, 4))
+        @game.pile.push Card.new(13, 2)
+
+        assert @game.current_player_can_move?
+    end
+   
 end

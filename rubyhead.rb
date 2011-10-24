@@ -11,7 +11,6 @@ player_names = request_player_names nplayers
 game = Game.new(player_names, ncards)
 game.deal!
 
-
 game.players.each do |player|
     clearscreen
     show_player(player, false)
@@ -34,6 +33,10 @@ game.first_move!
 while game.continue? do
     clearscreen
     show_game game
-    chosen_cards = request_move game.get_current_player
-    game.make_move! chosen_cards
+    if game.current_player_can_move?
+        chosen_cards = request_move game.get_current_player
+        game.make_move! chosen_cards
+    else
+        show_pickup_msg game.get_current_player.name
+    end
 end
