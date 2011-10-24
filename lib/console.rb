@@ -73,8 +73,15 @@ end
 
 def show_pile pile
     puts "#{pile.size} on pile:"
-    pile.each do |card|
-        puts "    #{card}"
+    reverse_pile = pile.reverse
+    first = true
+    reverse_pile.each do |card|
+        if first
+            puts " (*)#{card}"  
+            first = false
+        else
+            puts "    #{card}"
+        end
     end
 end
 
