@@ -39,7 +39,10 @@ end
 
 def show_game game
     show_pile game.pile
+    newline
     puts "#{game.deck.size} left on deck"
+    newline
+    puts "#{game.burnt.size} burnt"
     newline
 
     game.players.each do |player|

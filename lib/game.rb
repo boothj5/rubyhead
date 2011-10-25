@@ -7,6 +7,7 @@ class Game
         @cards_each = num_cards_each
         @deck = Deck.new(player_names.size, num_cards_each)
         @pile = Array.new
+        @burnt = Array.new
         @last_move = ''
         @deck.shuffle!
         @players = Array.new
@@ -78,7 +79,18 @@ class Game
         player = get_current_player
         cards_to_lay = to_lay.map { |i| player.hand[i] }
         play_from_hand! cards_to_lay
-        move_to_next_player!
+        if burn_pile?
+            burn!
+        else
+            move_to_next_player!
+        end
+    end
+
+    def burn!
+        player = get_current_player
+        @burnt += @pile
+        @pile.clear
+        @last_move = "#{player.name} burnt the deck"
     end
 
     def get_current_player
@@ -144,8 +156,17 @@ class Game
         return true
     end
 
+    def burn_pile?
+        return true if (@pile.last.rank == 10)
+        if @pile.size > 3
+            return true if (all_ranks_equal? @pile.last(4))
+        end    
+        return false
+    end
+
     attr_reader :players
     attr_reader :deck
     attr_reader :pile
+    attr_reader :burnt
     attr_reader :last_move
 end

@@ -463,4 +463,68 @@ class TestGame < Test::Unit::TestCase
         
         assert(@game.valid_move? to_lay)
     end
+    
+    def test_burn_pile_when_only_ten
+        create_game 3
+        @game.pile.push Card.new(10, 2)
+
+        assert @game.burn_pile?
+    end
+
+    def test_burn_pile_when_ten_on_other_cards
+        create_game 3
+        @game.pile.push(Card.new(4, 1), Card.new(7, 2), Card.new(14, 4), Card.new(10, 3))
+        
+        assert @game.burn_pile?
+    end
+
+    def test_not_burn_pile_when_not_ten
+        create_game 3
+        @game.pile.push Card.new(6, 1)
+        
+        assert(not(@game.burn_pile?))
+    end
+
+    def test_burn_pile_when_only_four_of_a_kind
+        create_game 3
+        @game.pile.push(Card.new(5, 1), Card.new(5, 4), Card.new(5, 2), Card.new(5, 3))
+
+        assert @game.burn_pile?
+    end
+
+    def test_burn_pile_when_four_of_a_kind_on_top
+        create_game 3
+        @game.pile.push(Card.new(3, 2), Card.new(4, 1), 
+            Card.new(5, 1), Card.new(5, 4), Card.new(5, 2), Card.new(5, 3))
+    
+        assert @game.burn_pile?
+    end
+
+    def test_not_burn_pile_when_three_of_a_kind
+        create_game 3
+        @game.pile.push(Card.new(4, 3), Card.new(5, 4), Card.new(5, 2), Card.new(5, 3))
+
+        assert(not(@game.burn_pile?))
+    end
+
+    def test_burn_adds_to_burnt
+        create_game 3
+        @game.pile.push(Card.new(3, 2), Card.new(6, 1))
+        @game.burn!
+
+        result = (@game.burnt.include? Card.new(3, 2)) and (@game.burnt.include? Card.new(6, 1))
+
+        assert result
+    end
+    
+    def test_burn_empties_pile
+        create_game 3
+        @game.pile.push(Card.new(3, 2), Card.new(6, 1))
+        @game.burn!
+
+        assert @game.pile.empty?
+    end
+       
+
+
 end
