@@ -72,11 +72,7 @@ class Game
     end
 
     def make_move! to_lay
-        cards_to_lay = Array.new
-        to_lay.each do |i|
-            cards_to_lay.push @players[@current_player].hand[i]
-        end
-
+        cards_to_lay = to_lay.map { |i| @players[@current_player].hand[i] }
         play_from_hand! cards_to_lay
         move_to_next_player!
     end
@@ -125,7 +121,19 @@ class Game
         @pile.clear
         @last_move = "#{@players[@current_player].name} picked up"
     end
-        
+
+    def valid_move? to_lay
+        cards_to_lay = to_lay.map { |i| @players[@current_player].hand[i] }
+        return valid_move_on_pile?(cards_to_lay, @pile)
+    end
+
+    def valid_move_on_pile?(cards_to_lay, pile)
+        return false unless all_ranks_equal? cards_to_lay
+        return true if pile.empty?
+        return (valid_move_on_pile?(cards_to_lay, pile.first(pile.size - 1))) if (pile.last.rank == 7)
+        return false if (sh_compare(cards_to_lay[0], pile.last) < 0)
+        return true
+    end
 
     attr_reader :players
     attr_reader :deck

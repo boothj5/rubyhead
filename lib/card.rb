@@ -45,4 +45,10 @@ def sh_compare(card1, card2)
     end
 end
 
-
+def all_ranks_equal? cards
+    return false if cards.empty?
+    cards.each do |card|
+        return false unless (card.equals_rank? cards[0])
+    end
+    return true
+end

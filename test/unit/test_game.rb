@@ -349,4 +349,101 @@ class TestGame < Test::Unit::TestCase
     
         assert @game.pile.empty?
     end
+
+    def test_valid_move_when_same_rank
+        create_game 3    
+        @game.players[0].hand.push(Card.new(2, 3), Card.new(9, 1), Card.new(9, 3))
+        to_lay = [1, 2]
+       
+         assert(@game.valid_move? to_lay)
+    end
+
+    def test_not_valid_move_when_different_rank
+        create_game 3
+        @game.players[0].hand.push(Card.new(2, 3), Card.new(5, 2), Card.new(10, 2))
+        to_lay = [1, 2]
+
+        assert(not(@game.valid_move? to_lay))
+    end
+    
+    def test_valid_move_when_empty_pile
+        create_game 3
+        @game.players[0].hand.push(Card.new(3, 3))
+        to_lay = [0]
+        @game.pile.clear
+
+        assert(@game.valid_move? to_lay)
+    end
+
+    def test_valid_move_when_seven
+        create_game 3
+        @game.players[0].hand.push(Card.new(7, 2), Card.new(3, 1), Card.new(7, 4))
+        to_lay = [0, 2]
+        @game.pile.push Card.new(9, 2)
+    
+        assert(@game.valid_move? to_lay)
+    end
+
+    def test_valid_move_when_two
+        create_game 3
+        @game.players[0].hand.push(Card.new(2, 2), Card.new(3, 1), Card.new(2, 4))
+        to_lay = [0, 2]
+        @game.pile.push Card.new(4, 2)
+    
+        assert(@game.valid_move? to_lay)
+    end
+ 
+    def test_valid_move_when_ten
+        create_game 3
+        @game.players[0].hand.push(Card.new(10, 2), Card.new(3, 1), Card.new(10, 4))
+        to_lay = [0, 2]
+        @game.pile.push Card.new(14, 2)
+    
+        assert(@game.valid_move? to_lay)
+    end
+    
+    def test_valid_move_when_rank_higher
+        create_game 3
+        @game.players[0].hand.push(Card.new(5, 2), Card.new(3, 1), Card.new(5, 4))
+        to_lay = [0, 2]
+        @game.pile.push Card.new(4, 2)
+    
+        assert(@game.valid_move? to_lay)
+    end
+    
+    def test_valid_move_when_rank_equals
+        create_game 3
+        @game.players[0].hand.push(Card.new(9, 2), Card.new(9, 1), Card.new(9, 4))
+        to_lay = [0, 2]
+        @game.pile.push Card.new(9, 3)
+    
+        assert(@game.valid_move? to_lay)
+    end
+
+    def test_not_valid_when_rank_lower
+        create_game 3
+        @game.players[0].hand.push(Card.new(11, 2), Card.new(4, 2), Card.new(11, 4))
+        to_lay = [0, 2]
+        @game.pile.push Card.new(12, 2)
+
+        assert(not(@game.valid_move? to_lay))
+    end
+
+    def test_valid_move_treats_seven_invisible_when_only_seven
+        create_game 3
+        @game.players[0].hand.push(Card.new(4, 2), Card.new(6, 1), Card.new(4, 1))
+        to_lay = [0, 2]
+        @game.pile.push Card.new(7, 4)
+
+        assert(@game.valid_move? to_lay)
+    end
+
+    def test_valid_move_looks_under_seven
+        create_game 3
+        @game.players[0].hand.push Card.new(5, 2)
+        to_lay = [0]
+        @game.pile.push(Card.new(9, 2), Card.new(7, 1))
+
+        assert(not(@game.valid_move? to_lay))
+    end
 end

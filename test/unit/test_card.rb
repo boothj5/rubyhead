@@ -108,4 +108,27 @@ class TestCard < Test::Unit::TestCase
         card2 = Card.new(12, 2)
         assert_equal(-1, sh_compare(card1, card2))
     end
+
+    def test_all_ranks_equal
+        cards = Array.new
+        cards.push(Card.new(6, 1), Card.new(6, 3), Card.new(6, 4))
+        assert(all_ranks_equal? cards)
+    end
+
+    def test_all_ranks_not_equal
+        cards = Array.new
+        cards.push(Card.new(6, 1), Card.new(5, 3), Card.new(6, 4))
+        assert(not(all_ranks_equal? cards))
+    end
+
+    def test_all_ranks_equal_when_one
+        cards = Array.new
+        cards.push(Card.new(8, 2))
+        assert(all_ranks_equal? cards)
+    end
+
+    def test_all_ranks_not_equals_when_no_cards
+        cards = Array.new
+        assert(not(all_ranks_equal? cards))
+    end
 end

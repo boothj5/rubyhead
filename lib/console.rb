@@ -113,5 +113,14 @@ end
 
 def show_pickup_msg name
     print "Oh dear #{name}, you must pickup, press enter."
+    wait_user
+end
+
+def show_bad_move name
+    print "Thats an invalid move, press enter to continue."
+    wait_user
+end
+
+def wait_user
     gets
 end

@@ -35,7 +35,11 @@ while game.continue? do
     show_game game
     if game.current_player_can_move?
         chosen_cards = request_move game.get_current_player
-        game.make_move! chosen_cards
+        if(game.valid_move? chosen_cards)
+            game.make_move! chosen_cards
+        else
+            show_bad_move game.get_current_player.name
+        end
     else
         show_pickup_msg game.get_current_player.name
         game.pick_up!
