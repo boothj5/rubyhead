@@ -60,11 +60,13 @@ class Game
     end
 
     def play_from_hand! to_lay
+        player = @players[@current_player]
         to_lay.each do |card|
-            @pile.push(@players[@current_player].hand.delete card)
-            @players[@current_player].hand.push @deck.remove_card
+            @pile.push(player.hand.delete card)
+            player.hand.push @deck.remove_card
         end
-        move = "#{@players[@current_player].name} laid the "
+        player.hand.sort! {|a,b| sh_compare(a,b)}
+        move = "#{player.name} laid the "
         to_lay.each do |card|
             move += "#{card}, "
         end
