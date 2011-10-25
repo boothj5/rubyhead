@@ -132,8 +132,9 @@ class Game
     def valid_move_on_pile?(cards_to_lay, pile)
         return false unless all_ranks_equal? cards_to_lay
         return true if pile.empty?
+        return true if cards_to_lay[0].special_card?
         return (valid_move_on_pile?(cards_to_lay, pile.first(pile.size - 1))) if (pile.last.rank == 7)
-        return false if (sh_compare(cards_to_lay[0], pile.last) < 0)
+        return false if (cards_to_lay[0].rank < pile.last.rank)
         return true
     end
 

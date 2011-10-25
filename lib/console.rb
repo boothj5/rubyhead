@@ -54,12 +54,12 @@ def show_player(player, include_face_down)
     puts "Player : #{player.name}"
     print 'HAND      : '
     player.hand.each do |card|
-        print "#{card}, "
+        print "(#{(player.hand.index card) + 1})#{card}, "
     end
     newline
     print 'FACE UP   : '
     player.face_up.each do |card|
-        print "#{card}, "
+        print "(#{(player.face_up.index card) + 1})#{card}, "
     end
     newline
     if include_face_down

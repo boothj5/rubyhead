@@ -428,7 +428,7 @@ class TestGame < Test::Unit::TestCase
 
         assert(not(@game.valid_move? to_lay))
     end
-
+    
     def test_valid_move_treats_seven_invisible_when_only_seven
         create_game 3
         @game.players[0].hand.push(Card.new(4, 2), Card.new(6, 1), Card.new(4, 1))
@@ -445,5 +445,14 @@ class TestGame < Test::Unit::TestCase
         @game.pile.push(Card.new(9, 2), Card.new(7, 1))
 
         assert(not(@game.valid_move? to_lay))
+    end
+
+    def test_valid_move_on_two
+        create_game 3
+        @game.players[0].hand.push Card.new(3, 4)
+        to_lay = [0]
+        @game.pile.push(Card.new(2, 4))
+        
+        assert(@game.valid_move? to_lay)
     end
 end
