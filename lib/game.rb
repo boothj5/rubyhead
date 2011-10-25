@@ -39,10 +39,11 @@ class Game
 
     def first_move!
         @current_player = player_with_lowest
+        player = get_current_player
         to_lay = Array.new
-        to_lay.push @players[@current_player].lowest_hand_card
+        to_lay.push player.lowest_hand_card
 
-        @players[@current_player].hand.each do |card|
+        player.hand.each do |card|
             if ((card.equals_rank? to_lay[0]) and not (card == to_lay[0]))
                 to_lay.push card
             end
@@ -60,7 +61,7 @@ class Game
     end
 
     def play_from_hand! to_lay
-        player = @players[@current_player]
+        player = get_current_player
         to_lay.each do |card|
             @pile.push(player.hand.delete card)
             player.hand.push @deck.remove_card
@@ -74,7 +75,8 @@ class Game
     end
 
     def make_move! to_lay
-        cards_to_lay = to_lay.map { |i| @players[@current_player].hand[i] }
+        player = get_current_player
+        cards_to_lay = to_lay.map { |i| player.hand[i] }
         play_from_hand! cards_to_lay
         move_to_next_player!
     end
@@ -94,38 +96,42 @@ class Game
     end
 
     def current_player_can_move?
-        if @pile.empty? 
-            return true
-        elsif @players[@current_player].has_cards_in_hand?
-            if @players[@current_player].has_special_card_in_hand?
-                return true
-            end
-            @players[@current_player].hand.each do |card|
-                if (card.rank >= @pile.last.rank)
-                    return true    
+        player = get_current_player
+        return true if @pile.empty?
+        
+        if player.has_cards_in_hand?
+            player.hand.each_index do |i|
+                if valid_move? Array.new([i])
+                    return true
                 end
             end
-        elsif @players[@current_player].has_cards_in_face_up?
-            if @players[@current_player].has_special_card_in_face_up?
-                return true
-            end
-            @players[@current_player].face_up.each do |card|
-                if (card.rank >= @pile.last.rank)
+        elsif player.has_cards_in_face_up?
+            player.face_up.each_index do |i|
+                if valid_move? Array.new([i])
                     return true
                 end
             end
         end
+
         return false
     end
 
     def pick_up!
-        @players[@current_player].add_to_hand! @pile
+        player = get_current_player
+        player.add_to_hand! @pile
+        player.hand.sort! {|a,b| sh_compare(a,b)}
         @pile.clear
-        @last_move = "#{@players[@current_player].name} picked up"
+        @last_move = "#{player.name} picked up"
     end
 
     def valid_move? to_lay
-        cards_to_lay = to_lay.map { |i| @players[@current_player].hand[i] }
+        player = get_current_player
+        cards_to_lay = Array.new
+        if player.has_cards_in_hand?
+            cards_to_lay = to_lay.map { |i| player.hand[i] }
+        else
+            cards_to_lay = to_lay.map { |i| player.face_up[i] }
+        end 
         return valid_move_on_pile?(cards_to_lay, @pile)
     end
 

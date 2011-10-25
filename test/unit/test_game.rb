@@ -331,6 +331,14 @@ class TestGame < Test::Unit::TestCase
         assert @game.current_player_can_move?
     end
 
+    def test_current_player_can_play_ignores_only_seven
+        create_game 3
+        @game.players[0].hand.push(Card.new(4, 3))
+        @game.pile.push(Card.new(7, 1))
+
+        assert @game.current_player_can_move?
+    end
+
     def test_pick_up_adds_pile_to_players_hand
         create_game 3
         @game.pile.push(Card.new(2, 3), Card.new(8, 1), Card.new(5, 2))
