@@ -82,53 +82,53 @@ class TestCard < Test::Unit::TestCase
     def test_special_carda_equal
         card1 = Card.new(2, 4)
         card2 = Card.new(10, 2)
-        assert_equal(0, sh_compare(card1, card2))
+        assert_equal(0, Card.sh_compare(card1, card2))
     end
 
     def test_first_special_greater
          card1 = Card.new(2, 4)
          card2 = Card.new(4, 2)
-         assert_equal(1, sh_compare(card1, card2))
+         assert_equal(1, Card.sh_compare(card1, card2))
     end
 
     def test_second_special_less
          card1 = Card.new(8, 4)
          card2 = Card.new(10, 2)
-         assert_equal(-1, sh_compare(card1, card2))
+         assert_equal(-1, Card.sh_compare(card1, card2))
     end
 
     def test_eight_greater_than_four
         card1 = Card.new(8, 4)
         card2 = Card.new(4, 2)
-        assert_equal(1, sh_compare(card1, card2))
+        assert_equal(1, Card.sh_compare(card1, card2))
     end
 
     def test_jack_less_than_queen
         card1 = Card.new(11, 4)
         card2 = Card.new(12, 2)
-        assert_equal(-1, sh_compare(card1, card2))
+        assert_equal(-1, Card.sh_compare(card1, card2))
     end
 
     def test_all_ranks_equal
         cards = Array.new
         cards.push(Card.new(6, 1), Card.new(6, 3), Card.new(6, 4))
-        assert(all_ranks_equal? cards)
+        assert(Card.all_ranks_equal? cards)
     end
 
     def test_all_ranks_not_equal
         cards = Array.new
         cards.push(Card.new(6, 1), Card.new(5, 3), Card.new(6, 4))
-        assert(not(all_ranks_equal? cards))
+        assert(not(Card.all_ranks_equal? cards))
     end
 
     def test_all_ranks_equal_when_one
         cards = Array.new
         cards.push(Card.new(8, 2))
-        assert(all_ranks_equal? cards)
+        assert(Card.all_ranks_equal? cards)
     end
 
     def test_all_ranks_not_equals_when_no_cards
         cards = Array.new
-        assert(not(all_ranks_equal? cards))
+        assert(not(Card.all_ranks_equal? cards))
     end
 end

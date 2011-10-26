@@ -39,7 +39,8 @@ class Deck
         size.downto(1) { |n| add_card remove_card_at(rand(n)) }
     end
 
-    def self.calc_num_decks(num_players, num_cards_each)
+    private
+    def Deck.calc_num_decks(num_players, num_cards_each)
         total_cards = (num_cards_each * 3) * num_players
         div = total_cards / 52
         add = ((total_cards % 52) > 0) ? 1 : 0

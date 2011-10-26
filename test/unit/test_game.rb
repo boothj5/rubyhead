@@ -74,7 +74,7 @@ class TestGame < Test::Unit::TestCase
         @game.players[0].hand.push(Card.new(11, 4), Card.new(5, 2))
         @game.players[1].hand.push(Card.new(2, 1), Card.new(9, 3))
         @game.players[2].hand.push(Card.new(6, 2), Card.new(4, 4))
-        result = @game.player_with_lowest
+        result = @game.send(:player_with_lowest)
         
         assert_equal(2, result)
     end
@@ -108,7 +108,7 @@ class TestGame < Test::Unit::TestCase
         to_lay = Array.new
         to_lay.push Card.new(2, 3)
         to_lay.push Card.new(2, 1)
-        @game.play_from_hand! to_lay
+        @game.send(:play_from_hand!, to_lay)
 
         assert (not(@game.players[0].hand.include? Card.new(2, 3)))
         assert (not(@game.players[0].hand.include? Card.new(2, 1)))
@@ -120,7 +120,7 @@ class TestGame < Test::Unit::TestCase
         to_lay = Array.new
         to_lay.push Card.new(2, 3)
         to_lay.push Card.new(2, 1)
-        @game.play_from_hand! to_lay
+        @game.send(:play_from_hand!, to_lay)
 
         assert(@game.pile.include? Card.new(2, 3))
         assert(@game.pile.include? Card.new(2, 1))
@@ -132,7 +132,7 @@ class TestGame < Test::Unit::TestCase
         to_lay = Array.new
         to_lay.push Card.new(2, 3)
         to_lay.push Card.new(2, 1)
-        @game.play_from_hand! to_lay
+        @game.send(:play_from_hand!, to_lay)
 
         assert(@game.last_move =~ /TWO of CLUBS/i)
         assert(@game.last_move =~ /TWO of HEARTS/i)
@@ -468,28 +468,28 @@ class TestGame < Test::Unit::TestCase
         create_game 3
         @game.pile.push Card.new(10, 2)
 
-        assert @game.burn_pile?
+        assert @game.send(:burn_pile?)
     end
 
     def test_burn_pile_when_ten_on_other_cards
         create_game 3
         @game.pile.push(Card.new(4, 1), Card.new(7, 2), Card.new(14, 4), Card.new(10, 3))
         
-        assert @game.burn_pile?
+        assert @game.send(:burn_pile?)
     end
 
     def test_not_burn_pile_when_not_ten
         create_game 3
         @game.pile.push Card.new(6, 1)
         
-        assert(not(@game.burn_pile?))
+        assert(not(@game.send(:burn_pile?)))
     end
 
     def test_burn_pile_when_only_four_of_a_kind
         create_game 3
         @game.pile.push(Card.new(5, 1), Card.new(5, 4), Card.new(5, 2), Card.new(5, 3))
 
-        assert @game.burn_pile?
+        assert @game.send(:burn_pile?)
     end
 
     def test_burn_pile_when_four_of_a_kind_on_top
@@ -497,20 +497,20 @@ class TestGame < Test::Unit::TestCase
         @game.pile.push(Card.new(3, 2), Card.new(4, 1), 
             Card.new(5, 1), Card.new(5, 4), Card.new(5, 2), Card.new(5, 3))
     
-        assert @game.burn_pile?
+        assert @game.send(:burn_pile?)
     end
 
     def test_not_burn_pile_when_three_of_a_kind
         create_game 3
         @game.pile.push(Card.new(4, 3), Card.new(5, 4), Card.new(5, 2), Card.new(5, 3))
 
-        assert(not(@game.burn_pile?))
+        assert(not(@game.send(:burn_pile?)))
     end
 
     def test_burn_adds_to_burnt
         create_game 3
         @game.pile.push(Card.new(3, 2), Card.new(6, 1))
-        @game.burn!
+        @game.send(:burn!)
 
         result = (@game.burnt.include? Card.new(3, 2)) and (@game.burnt.include? Card.new(6, 1))
 
@@ -520,7 +520,7 @@ class TestGame < Test::Unit::TestCase
     def test_burn_empties_pile
         create_game 3
         @game.pile.push(Card.new(3, 2), Card.new(6, 1))
-        @game.burn!
+        @game.send(:burn!)
 
         assert @game.pile.empty?
     end

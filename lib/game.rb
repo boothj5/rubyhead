@@ -3,6 +3,12 @@ require './lib/deck.rb'
 
 class Game
 
+    attr_reader :players
+    attr_reader :deck
+    attr_reader :pile
+    attr_reader :burnt
+    attr_reader :last_move
+
     def initialize(player_names, num_cards_each)
         @cards_each = num_cards_each
         @deck = Deck.new(player_names.size, num_cards_each)
@@ -24,18 +30,8 @@ class Game
                 player.face_up.push @deck.remove_card
                 player.face_down.push @deck.remove_card
             end
-            player.hand.sort! {|a,b| sh_compare(a,b)}
+            player.hand.sort! {|a,b| Card.sh_compare(a,b)}
         end
-    end
-
-    def player_with_lowest
-        lowest_player = @players[0]
-        @players.each do |test_player|
-            if (sh_compare(test_player.lowest_hand_card, lowest_player.lowest_hand_card)<0)
-                lowest_player = test_player
-            end
-        end
-        @players.index lowest_player
     end
 
     def first_move!
@@ -61,20 +57,6 @@ class Game
         end
     end
 
-    def play_from_hand! to_lay
-        player = get_current_player
-        to_lay.each do |card|
-            @pile.push(player.hand.delete card)
-            player.hand.push @deck.remove_card
-        end
-        player.hand.sort! {|a,b| sh_compare(a,b)}
-        move = "#{player.name} laid the "
-        to_lay.each do |card|
-            move += "#{card}, "
-        end
-        @last_move = move
-    end
-
     def make_move! to_lay
         player = get_current_player
         cards_to_lay = to_lay.map { |i| player.hand[i] }
@@ -84,13 +66,6 @@ class Game
         else
             move_to_next_player!
         end
-    end
-
-    def burn!
-        player = get_current_player
-        @burnt += @pile
-        @pile.clear
-        @last_move = "#{player.name} burnt the deck"
     end
 
     def get_current_player
@@ -131,7 +106,7 @@ class Game
     def pick_up!
         player = get_current_player
         player.add_to_hand! @pile
-        player.hand.sort! {|a,b| sh_compare(a,b)}
+        player.hand.sort! {|a,b| Card.sh_compare(a,b)}
         @pile.clear
         @last_move = "#{player.name} picked up"
     end
@@ -144,29 +119,55 @@ class Game
         else
             cards_to_lay = to_lay.map { |i| player.face_up[i] }
         end 
-        return valid_move_on_pile?(cards_to_lay, @pile)
+        return Game.valid_move_on_pile?(cards_to_lay, @pile)
     end
 
-    def valid_move_on_pile?(cards_to_lay, pile)
-        return false unless all_ranks_equal? cards_to_lay
+    private
+    def burn!
+        player = get_current_player
+        @burnt += @pile
+        @pile.clear
+        @last_move = "#{player.name} burnt the deck"
+    end
+
+    def player_with_lowest
+        lowest_player = @players[0]
+        @players.each do |test_player|
+            if (Card.sh_compare(test_player.lowest_hand_card, lowest_player.lowest_hand_card)<0)
+                lowest_player = test_player
+            end
+        end
+        @players.index lowest_player
+    end
+
+    def play_from_hand! to_lay
+        player = get_current_player
+        to_lay.each do |card|
+            @pile.push(player.hand.delete card)
+            player.hand.push @deck.remove_card
+        end
+        player.hand.sort! {|a,b| Card.sh_compare(a,b)}
+        move = "#{player.name} laid the "
+        to_lay.each do |card|
+            move += "#{card}, "
+        end
+        @last_move = move
+    end
+
+    def burn_pile?
+        return true if (@pile.last.rank == 10)
+        if @pile.size > 3
+            return true if (Card.all_ranks_equal? @pile.last(4))
+        end    
+        return false
+    end
+
+    def Game.valid_move_on_pile?(cards_to_lay, pile)
+        return false unless Card.all_ranks_equal? cards_to_lay
         return true if pile.empty?
         return true if cards_to_lay[0].special_card?
         return (valid_move_on_pile?(cards_to_lay, pile.first(pile.size - 1))) if (pile.last.rank == 7)
         return false if (cards_to_lay[0].rank < pile.last.rank)
         return true
     end
-
-    def burn_pile?
-        return true if (@pile.last.rank == 10)
-        if @pile.size > 3
-            return true if (all_ranks_equal? @pile.last(4))
-        end    
-        return false
-    end
-
-    attr_reader :players
-    attr_reader :deck
-    attr_reader :pile
-    attr_reader :burnt
-    attr_reader :last_move
 end
