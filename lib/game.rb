@@ -87,21 +87,14 @@ class Game
         return true if @pile.empty?
         
         if player.has_cards_in_hand?
-            player.hand.each_index do |i|
-                if valid_move? Array.new([i])
-                    return true
-                end
-            end
+            return true if (can_move_with? player.hand)
         elsif player.has_cards_in_face_up?
-            player.face_up.each_index do |i|
-                if valid_move? Array.new([i])
-                    return true
-                end
-            end
+            return true if (can_move_with? player.face_up)
         end
 
         return false
     end
+
 
     def pick_up!
         player = get_current_player
@@ -123,6 +116,13 @@ class Game
     end
 
     private
+    def can_move_with? cards
+        cards.each_index do |i|
+            return true if (valid_move? Array.new([i]))
+        end
+        return false
+    end
+
     def burn!
         player = get_current_player
         @burnt += @pile
