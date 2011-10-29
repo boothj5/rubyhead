@@ -60,7 +60,13 @@ class Game
     def make_move! to_lay
         player = get_current_player
         cards_to_lay = to_lay.map { |i| player.hand[i] }
-        play_from_hand! cards_to_lay
+        if player.has_cards_in_hand?
+            cards_to_lay = to_lay.map { |i| player.hand[i] }
+            play_from_hand! cards_to_lay
+        else
+            cards_to_lay = to_lay.map { |i| player.face_up[i] }
+            play_from_face_up! cards_to_lay
+        end
         if burn_pile?
             burn!
         elsif miss_a_go?
@@ -146,9 +152,22 @@ class Game
         player = get_current_player
         to_lay.each do |card|
             @pile.push(player.hand.delete card)
-            player.hand.push @deck.remove_card if (not(@deck.empty?))
+            player.hand.push @deck.remove_card if (not(@deck.empty?) and (player.hand.size < @cards_each))
         end
         player.hand.sort! {|a,b| Card.sh_compare(a,b)}
+        move = "#{player.name} laid the "
+        to_lay.each do |card|
+            move += "#{card}, "
+        end
+        @last_move = move
+    end
+
+    def play_from_face_up! to_lay
+        player = get_current_player
+        to_lay.each do |card|
+            @pile.push(player.face_up.delete card)
+            player.face_up.push @deck.remove_card if (not(@deck.empty?))
+        end
         move = "#{player.name} laid the "
         to_lay.each do |card|
             move += "#{card}, "
