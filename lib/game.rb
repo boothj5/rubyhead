@@ -63,6 +63,8 @@ class Game
         play_from_hand! cards_to_lay
         if burn_pile?
             burn!
+        elsif miss_a_go?
+            @last_move = "#{player.name} layed miss a go card."
         else
             move_to_next_player!
         end
@@ -144,7 +146,7 @@ class Game
         player = get_current_player
         to_lay.each do |card|
             @pile.push(player.hand.delete card)
-            player.hand.push @deck.remove_card
+            player.hand.push @deck.remove_card if (not(@deck.empty?))
         end
         player.hand.sort! {|a,b| Card.sh_compare(a,b)}
         move = "#{player.name} laid the "
@@ -160,6 +162,10 @@ class Game
             return true if (Card.all_ranks_equal? @pile.last(4))
         end    
         return false
+    end
+
+    def miss_a_go?
+        return (@pile.last.rank == 8)
     end
 
     def Game.valid_move_on_pile?(cards_to_lay, pile)

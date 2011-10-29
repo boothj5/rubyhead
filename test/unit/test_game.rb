@@ -524,6 +524,20 @@ class TestGame < Test::Unit::TestCase
 
         assert @game.pile.empty?
     end
+
+    def test_miss_a_go_when_eight
+        create_game 3
+        @game.pile.push(Card.new(3, 2), Card.new(8, 1))
+        
+        assert @game.send(:miss_a_go?)
+    end
+
+    def test_not_miss_a_go_when_not_eight
+        create_game 3
+        @game.pile.push(Card.new(3, 2), Card.new(6, 2))
+
+        assert(not(@game.send(:miss_a_go?)))
+    end
        
 
 

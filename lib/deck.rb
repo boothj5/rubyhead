@@ -39,6 +39,10 @@ class Deck
         size.downto(1) { |n| add_card remove_card_at(rand(n)) }
     end
 
+    def empty?
+        @deck.empty?
+    end
+
     private
     def Deck.calc_num_decks(num_players, num_cards_each)
         total_cards = (num_cards_each * 3) * num_players
