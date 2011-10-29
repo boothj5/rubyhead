@@ -76,6 +76,26 @@ class Game
         end
     end
 
+    def playing_from_face_down?
+        player = get_current_player
+        return true unless (player.has_cards_in_hand? or player.has_cards_in_face_up?)
+        return false
+    end
+
+    def make_face_down_move! chosen_card
+        player = get_current_player
+        @pile.push(player.face_down.delete_at chosen_card)
+        @last_move = "#{player.name} laid the #{@pile.last}"
+        if burn_pile?
+            burn!
+        elsif miss_a_go?
+            @last_move = "#{player.name} layed miss a go card."
+        else
+            move_to_next_player!
+        end
+    end
+        
+
     def get_current_player
         @players[@current_player]
     end
@@ -112,6 +132,15 @@ class Game
         @last_move = "#{player.name} picked up"
     end
 
+    def pickup_pile_and_face_down! card
+        player = get_current_player
+        player.add_to_hand! @pile
+        player.hand.push player.face_down.delete_at card
+        player.hand.sort! {|a, b| Card.sh_compare(a, b)}
+        @pile.clear
+        @last_move = "#{player.name} picked up"
+    end
+
     def valid_move? to_lay
         player = get_current_player
         cards_to_lay = Array.new
@@ -121,6 +150,20 @@ class Game
             cards_to_lay = to_lay.map { |i| player.face_up[i] }
         end 
         return Game.valid_move_on_pile?(cards_to_lay, @pile)
+    end
+
+    def valid_move_from_face_down? card
+        player = get_current_player
+        card_to_lay = Array.new
+        card_to_lay.push player.face_down[card]
+        return Game.valid_move_on_pile?(card_to_lay, @pile)
+    end
+
+    def get_rubyhead
+        @players.each do |player|
+            return player.name if player.has_cards?
+        end
+        return @players[0]
     end
 
     private
@@ -166,7 +209,6 @@ class Game
         player = get_current_player
         to_lay.each do |card|
             @pile.push(player.face_up.delete card)
-            player.face_up.push @deck.remove_card if (not(@deck.empty?))
         end
         move = "#{player.name} laid the "
         to_lay.each do |card|

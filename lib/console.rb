@@ -67,8 +67,8 @@ def show_player(player, include_face_down)
     newline
     if include_face_down
         print 'FACE DOWN : '
-        player.face_down.each do |card|
-            print "#{card}, "
+        player.face_down.each do
+            print "****, "
         end
         newline
     end
@@ -119,11 +119,32 @@ def show_pickup_msg name
     wait_user
 end
 
-def show_bad_move name
+def show_bad_move
     print "Thats an invalid move, press enter to continue."
     wait_user
 end
 
 def wait_user
     gets
+end
+
+def request_face_down_card name
+    print "#{name} please choose a face down card: "
+    gets.chomp.to_i - 1
+end
+
+def show_face_down_fail card
+    print "OH DEAR! You chose the #{card}, press enter to continue."
+    wait_user
+end
+
+def show_face_down_win card
+    print "WHEW! You chose the #{card}, press enter to continue."
+    wait_user
+end
+
+def show_rubyhead name
+    newline
+    puts "!!!!!GAME OVER!!!!!"
+    puts "#{name} is a SHITHEAD!"
 end
