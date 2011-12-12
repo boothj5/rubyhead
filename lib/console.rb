@@ -49,28 +49,32 @@ def show_game game
         show_player(player, true)
         newline
     end
+
     puts game.last_move
+    newline
+end
+
+def show_hand(name, cards, hide)
+    print name
+    cards.each do |card|
+        if hide
+            print "****"
+        else
+            print "(#{(cards.index card) + 1})#{card}"
+        end
+        unless ((cards.index card) == (cards.length - 1))
+            print ', '
+        end
+    end
     newline
 end
 
 def show_player(player, include_face_down)
     puts "Player : #{player.name}"
-    print 'HAND      : '
-    player.hand.each do |card|
-        print "(#{(player.hand.index card) + 1})#{card}, "
-    end
-    newline
-    print 'FACE UP   : '
-    player.face_up.each do |card|
-        print "(#{(player.face_up.index card) + 1})#{card}, "
-    end
-    newline
+    show_hand('HAND      : ', player.hand, false)
+    show_hand('FACE UP   : ', player.face_up, false)
     if include_face_down
-        print 'FACE DOWN : '
-        player.face_down.each do
-            print "****, "
-        end
-        newline
+        show_hand('FACE DOWN : ', player.face_down, true)
     end
 end
 

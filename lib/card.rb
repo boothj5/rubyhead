@@ -18,13 +18,17 @@ class Card
     end
 
     def == other
-        return nil unless other.instance_of? Card
+        unless other.instance_of? Card
+            return nil
+        end    
         return (self.rank == other.rank and self.suit == other.suit)
     end
 
     def equals_rank? other
-        return nil unless other.instance_of? Card
-        return self.rank == other.rank
+        unless other.instance_of? Card
+            return nil
+        end
+        return (self.rank == other.rank)
     end
 
     def special_card?
@@ -32,17 +36,28 @@ class Card
     end
 
     def Card.sh_compare(card1, card2)
-        return nil unless (card1.instance_of? Card and card2.instance_of? Card)
-        return 0 if (card1.special_card? and card2.special_card?)
-        return 1 if (card1.special_card? and not card2.special_card?)
-        return -1 if (card2.special_card?)
-        return card1.rank <=> card2.rank
+        unless (card1.instance_of? Card and card2.instance_of? Card)
+            return nil
+        end
+        if (card1.special_card? and card2.special_card?)
+            return 0
+        elsif (card1.special_card? and not card2.special_card?)
+            return 1
+        elsif (card2.special_card?)
+            return -1
+        else
+            return (card1.rank <=> card2.rank)
+        end
     end
 
     def Card.all_ranks_equal? cards
-        return false if cards.empty?
+        if cards.empty?
+            return false
+        end
         cards.each do |card|
-            return false unless (card.equals_rank? cards[0])
+            unless (card.equals_rank? cards[0])
+                return false
+            end
         end
         return true
     end
