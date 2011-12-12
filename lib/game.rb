@@ -78,7 +78,9 @@ class Game
 
     def playing_from_face_down?
         player = get_current_player
-        return true unless (player.has_cards_in_hand? or player.has_cards_in_face_up?)
+        unless (player.has_cards_in_hand? or player.has_cards_in_face_up?)
+            return true
+        end
         return false
     end
 
@@ -114,13 +116,13 @@ class Game
         player = get_current_player
         return true if @pile.empty?
         
-        if player.has_cards_in_hand?
-            return true if (can_move_with? player.hand)
-        elsif player.has_cards_in_face_up?
-            return true if (can_move_with? player.face_up)
+        if (player.has_cards_in_hand? and (can_move_with? player.hand))
+            return true
+        elsif (player.has_cards_in_face_up? and (can_move_with? player.face_up))
+            return true
+        else
+            return false
         end
-
-        return false
     end
 
 
@@ -161,7 +163,9 @@ class Game
 
     def get_rubyhead
         @players.each do |player|
-            return player.name if player.has_cards?
+            if player.has_cards?
+                return player.name
+            end
         end
         return @players[0]
     end
@@ -169,7 +173,9 @@ class Game
     private
     def can_move_with? cards
         cards.each_index do |i|
-            return true if (valid_move? Array.new([i]))
+            if (valid_move? Array.new([i]))
+                return true
+            end
         end
         return false
     end
@@ -184,7 +190,8 @@ class Game
     def player_with_lowest
         lowest_player = @players[0]
         @players.each do |test_player|
-            if (Card.sh_compare(test_player.lowest_hand_card, lowest_player.lowest_hand_card)<0)
+            if (Card.sh_compare(test_player.lowest_hand_card, 
+                    lowest_player.lowest_hand_card) < 0 )
                 lowest_player = test_player
             end
         end
@@ -195,7 +202,9 @@ class Game
         player = get_current_player
         to_lay.each do |card|
             @pile.push(player.hand.delete card)
-            player.hand.push @deck.remove_card if (not(@deck.empty?) and (player.hand.size < @cards_each))
+            if (not(@deck.empty?) and (player.hand.size < @cards_each))
+                player.hand.push @deck.remove_card         
+            end
         end
         player.hand.sort! {|a,b| Card.sh_compare(a,b)}
         move = "#{player.name} laid the "
@@ -218,11 +227,13 @@ class Game
     end
 
     def burn_pile?
-        return true if (@pile.last.rank == 10)
-        if @pile.size > 3
-            return true if (Card.all_ranks_equal? @pile.last(4))
-        end    
-        return false
+        if @pile.last.rank == 10
+            return true
+        elsif ((@pile.size > 3) and (Card.all_ranks_equal? @pile.last(4)))
+            return true
+        else    
+            return false
+        end
     end
 
     def miss_a_go?
@@ -230,11 +241,19 @@ class Game
     end
 
     def Game.valid_move_on_pile?(cards_to_lay, pile)
-        return false unless Card.all_ranks_equal? cards_to_lay
-        return true if pile.empty?
-        return true if cards_to_lay[0].special_card?
-        return (valid_move_on_pile?(cards_to_lay, pile.first(pile.size - 1))) if (pile.last.rank == 7)
-        return false if (cards_to_lay[0].rank < pile.last.rank)
-        return true
+        unless Card.all_ranks_equal? cards_to_lay
+            return false
+        end
+        if pile.empty?
+            return true
+        elsif cards_to_lay[0].special_card?
+            return true
+        elsif (pile.last.rank == 7)
+            return (valid_move_on_pile?(cards_to_lay, pile.first(pile.size - 1))) 
+        elsif (cards_to_lay[0].rank < pile.last.rank)
+            return false
+        else
+            return true
+        end
     end
 end
