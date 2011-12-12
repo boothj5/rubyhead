@@ -32,29 +32,37 @@ class Player
     end
 
     def has_cards?
-        return true unless ((@hand.empty?) and (@face_up.empty?) and (@face_down.empty?))
+        return (has_cards_in_hand? or has_cards_in_face_up? or has_cards_in_face_down?)
     end
 
     def has_special_card_in_hand?
         @hand.each do |card|
-            return true if card.special_card?
+            if card.special_card?
+                return true
+            end
         end
         return false
     end
 
     def has_special_card_in_face_up?
         @face_up.each do |card|
-            return true if card.special_card?
+            if card.special_card?
+                return true
+            end
         end
         return false
     end
 
     def has_cards_in_hand?
-        return true unless @hand.empty?
+        return (not @hand.empty?)
     end
 
     def has_cards_in_face_up?
-        return true unless @face_up.empty?
+        return (not @face_up.empty?)
+    end
+
+    def has_cards_in_face_down?
+        return (not @face_down.empty?)
     end
 
     def add_to_hand! cards
